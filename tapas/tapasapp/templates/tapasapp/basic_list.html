@@ -20,18 +20,24 @@ comments of my program.
 <div class="col-md-8 offset-md-2 mt-5">
   <h2 class="mb-4">Welcome, {{ account.username }}</h2>
 
-  <h4>Dishes</h4>
-  <ul class="list-group mb-3">
-    {% for dish in dishes %}
-      <li class="list-group-item">
-        {{ dish.name }} — Prep: {{ dish.prep_time }} mins, Cook: {{ dish.cook_time }} mins
-      </li>
-    {% empty %}
-      <li class="list-group-item">No dishes available.</li>
-    {% endfor %}
-  </ul>
-
-  <a href="{% url 'manage_account' account.pk %}" class="btn btn-info">Manage Account</a>
-  <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
-</div>
-{% endblock %}
+                <div class="col-12">
+                    <table class="table table-striped mb-5">
+                        <thead>
+                            <th scope="col"> Name </th>
+                            <th scope="col"> Cooking Time </th>
+                            <th scope="col"> Prep Time </th>
+                            <th scope="col">  </th>
+                        </thead>
+                        <tbody>
+                            {% for d in dishes %}
+                            <tr>
+                                <td> {{ d.name }} </td>
+                                <td> {{ d.prep_time }} </td>
+                                <td> {{ d.cook_time }} </td>
+                                <td><a href="{% url 'view_detail' pk=d.pk %}"  class="btn btn-dark">Details</button></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endblock %}
