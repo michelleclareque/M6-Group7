@@ -20,13 +20,29 @@ from .models import Dish, Account
 
 # Create your views here.
 
+def basic_list(request, pk):
+    acc = get_object_or_404(Account, pk=pk)
+    dishes = Dish.objects.all()
+    return render(request, "tapasapp/basic_list.html", {
+        "account": acc,
+        "dishes": dishes
+    })
 
 def better_menu(request):
     dish_objects = Dish.objects.all()
     return render(request, 'tapasapp/better_list.html', {'dishes':dish_objects})
 
+def change_password(request, pk):
+    acc = get_object_or_404(Account, pk=pk)
+    if request.method == "POST":
+        new_password = request.POST.get("new_password")
+        acc.password = new_password
+        acc.save()
+        return redirect("manage_account", pk=pk)
+    return render(request, "tapasapp/change_password.html", {"account": acc})
+
 def add_menu(request):
-    if(request.method=="POST"):
+    if request.method=="POST":
         dishname = request.POST.get('dname')
         cooktime = request.POST.get('ctime')
         preptime = request.POST.get('ptime')
@@ -81,3 +97,7 @@ def delete_account(request, pk):
     acc = get_object_or_404(Account, pk=pk)
     acc.delete()
     return redirect("login")
+
+def manage_account(request, pk):
+    acc = get_object_or_404(Account, pk=pk)
+    return render(request, "tapasapp/manage_account.html", {"account": acc})
