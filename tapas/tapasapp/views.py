@@ -16,7 +16,7 @@ comments of my program.
 '''
 
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Dish 
+from .models import Dish, Account 
 
 # Create your views here.
 
@@ -52,3 +52,32 @@ def update_dish(request, pk):
     else:
         d = get_object_or_404(Dish, pk=pk)
         return render(request, 'tapasapp/update_menu.html', {'d':d})
+
+def login_view(request):
+    if request.method == "POST":
+        uname = request.POST.get("username")
+        pword = request.POST.get("password")
+        try:
+            acc = Account.objects.get(username=uname, password=pword)
+            return redirect("basic_list", pk=acc.pk)
+        except Account.DoesNotExist:
+            return render(request, "tapasapp/login.html", {"error": "Invalid login"})
+    return render(request, "tapasapp/login.html")
+
+def signup_view(request):
+    if request.method == "POST":
+        uname = request.POST.get("username")
+        pword = request.POST.get("password")
+        if Account.objects.filter(username=uname).exists():
+            return render(request, "tapasapp/signup.html", {"error": "Account already exists"})
+        Account.objects.create(username=uname, password=pword)
+        return redirect("login")
+    return render(request, "tapasapp/signup.html")
+
+def logout_view(request):
+    return redirect("login")
+
+def delete_account(request, pk):
+    acc = get_object_or_404(Account, pk=pk)
+    acc.delete()
+    return redirect("login")
