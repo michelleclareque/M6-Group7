@@ -20,6 +20,16 @@ comments of my program.
 <div class="col-md-8 offset-md-2 mt-5">
   <h2 class="mb-4">Welcome, {{ account.username }}</h2>
 
+    <div class="mb-3">
+        <a href="/manage_account/{{ account.id }}/" class="btn btn-primary">
+            Manage Account
+        </a>
+
+        <a href="/" class="btn btn-secondary">
+            Logout
+        </a>
+    </div>
+
                 <div class="col-12">
                     <table class="table table-striped mb-5">
                         <thead>

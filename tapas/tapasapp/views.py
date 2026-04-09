@@ -35,10 +35,16 @@ def better_menu(request):
 def change_password(request, pk):
     acc = get_object_or_404(Account, pk=pk)
     if request.method == "POST":
+        current_password = request.POST.get("current_password")
         new_password = request.POST.get("new_password")
-        acc.password = new_password
-        acc.save()
-        return redirect("manage_account", pk=pk)
+        confirm_password = request.POST.get("confirm_password")
+        
+        if acc.password == current_password and new_password == confirm_password:
+            acc.password = new_password
+            acc.save()
+            return redirect("manage_account", pk=pk)
+        else:
+            return render(request, "tapasapp/change_password.html", {"account": acc, "error": " Wrong Current Password or Confirm Passowed doesn't match"})
     return render(request, "tapasapp/change_password.html", {"account": acc})
 
 def add_menu(request):
