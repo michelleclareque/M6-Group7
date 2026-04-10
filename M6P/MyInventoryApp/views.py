@@ -25,8 +25,13 @@ def view_bottles(request, pk):
     return render(request, 'MyInventoryApp/view_bottles.html', {'waterbottles':waterbottle_objects, 'supplier':supplier_objects})
 
 def view_supplier(request, pk):
+    acc = get_object_or_404(Account, pk=pk)
     supplier_objects = Supplier.objects.all()
-    return render(request, 'MyInventoryApp/view_supplier.html', {'suppliers':supplier_objects})
+    return render(request, 'MyInventoryApp/view_supplier.html', 
+                  {
+                      'suppliers':supplier_objects,
+                      'account': acc
+                    })
 
 def add_bottle(request):
     if request.method=="POST":
@@ -54,10 +59,13 @@ def signup_view(request):
     if request.method == "POST":
         uname = request.POST.get("username")
         pword = request.POST.get("password")
+
         if Account.objects.filter(username=uname).exists():
             return render(request, "MyInventoryApp/signup.html", {"error": "Account already exists"})
-        Account.objects.create(username=uname, password=pword)
-        return render(request, "MyInventoryApp/login.html", {"success": "Account created successfully"})
+        else:
+            Account.objects.create(username=uname, password=pword)
+            return render(request, "MyInventoryApp/login.html", {"success": "Account created successfully"})
+        
     return render(request, "MyInventoryApp/signup.html")
 
 def view_detail(request, pk):
