@@ -27,9 +27,9 @@ urlpatterns = [
     path('change_password/<int:pk>/', views.change_password, name='change_password'),
     path('delete_account/<int:pk>/', views.delete_account, name='delete_account'),
     path('logout/', views.logout_view, name='logout'),
-    path('view_detail/<int:pk>/', views.view_detail, name='view_detail'),
-    path('delete_bottle/<int:pk>/', views.delete_bottle, name='delete_bottle'),
-    path('add_bottle/<int:pk>/', views.add_bottle, name='add_bottle'),
-    path('view_bottles/', views.view_bottles, name='view_bottles'),
     path('view_supplier/', views.view_supplier, name='view_supplier'),
+    path('view_bottles/<int:pk>/', views.view_bottles, name='view_bottles'),
+    path('view_detail/<int:pk>/', views.view_detail, name='view_detail'),
+    path('add_bottle/', views.add_bottle, name='add_bottle'),  
+    path('delete_bottle/<int:pk>/', views.delete_bottle, name='delete_bottle'),
 ]

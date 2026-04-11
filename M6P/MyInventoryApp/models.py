@@ -25,7 +25,6 @@ class Supplier(models.Model):
     City = models.CharField(max_length=300)
     Country = models.CharField(max_length=300)
     Created_At = models.DateTimeField(blank=True, null=True)
-
     objects = models.Manager()
 
     def getName(self):
