@@ -20,6 +20,13 @@ comments of my program.
                 
                 {% block content %}
                 <h2>Suppliers</h2>
+
+                <div class="mb-3">
+                    <a href="{% url 'add_bottle' %}" class="btn btn-primary">Add Water Bottles</a>
+                    <a href="{% url 'manage_account' account.pk %}" class="btn btn-warning">Manage Account</a>
+                    <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+                </div>
+
                 <div class="col-12">
 
                     <table class="table table-striped">
@@ -29,6 +36,7 @@ comments of my program.
                             <th class="border-top border-bottom" scope="col"> Country </th>
                             <th class="border-top border-bottom" scope="col"> Created at </th>
                         </thead>
+
                         <tbody>
                             {% for s in suppliers %}
                             <tr>
@@ -36,6 +44,15 @@ comments of my program.
                                 <td> {{ s.City }} </td>
                                 <td> {{ s.Country }} </td>
                                 <td> {{ s.Created_At }} </td>
+                                <td>
+                                    <a href = "{% url 'view_bottles' s.pk %}" class="btn btn-info btn-sm">
+                                        View Bottles
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5">No Suppliers Found</td>
                             </tr>
                             {% endfor %}
                         </tbody>
