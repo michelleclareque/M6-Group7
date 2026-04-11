@@ -32,22 +32,28 @@ comments of my program.
                             <th class="border-top border-bottom" scope="col"> Color </th>
                             <th class="border-top border-bottom" scope="col"> Supplied by </th>
                             <th class="border-top border-bottom" scope="col"> Current Quantity </th>
+                            <th class="border-top border-bottom" scope="col"> More </th>
                         </thead>
                         <tbody>
-                            {% for w in waterbottles %}
+                            {% for bottle in waterbottles %}
                             <tr>
-                                <td> {{ w.SKU }} </td>
-                                <td> {{ w.Brand }} </td>
-                                <td> {{ w.Cost }} </td>
-                                <td> {{ w.Size }} </td>
-                                <td> {{ w.Mouth_Size }} </td>
-                                <td> {{ w.Color }} </td>
-                                <td> {{ w.Supplied_by.Name }} </td>
-                                <td> {{ w.Current_Quantity }} </td>
+                                <td> {{ bottle.SKU }} </td>
+                                <td> {{ bottle.Brand }} </td>
+                                <td> {{ bottle.Cost }} </td>
+                                <td> {{ bottle.Size }} </td>
+                                <td> {{ bottle.Mouth_Size }} </td>
+                                <td> {{ bottle.Color }} </td>
+                                <td> {{ bottle.Supplied_by.Name }} </td>
+                                <td> {{ bottle.Current_Quantity }} </td>
+                                <td> <a href="{% url 'view_bottle_details' bottle.pk %}" class="btn btn-primary btn-sm">Details</a> </td>
+ 
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
 
+                    <div class="mt-4">
+                        <a href="{% url 'view_supplier' %}" class="btn btn-secondary"> Back </a>
+                    </div>
                 </div>
                 {% endblock %}

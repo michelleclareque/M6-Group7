@@ -28,6 +28,7 @@ comments of my program.
                             <th class="border-top border-bottom" scope="col"> City </th>
                             <th class="border-top border-bottom" scope="col"> Country </th>
                             <th class="border-top border-bottom" scope="col"> Created at </th>
+                            <th class="border-top border-bottom" scope="col"> More </th>
                         </thead>
                         <tbody>
                             {% for s in suppliers %}
@@ -36,10 +37,17 @@ comments of my program.
                                 <td> {{ s.City }} </td>
                                 <td> {{ s.Country }} </td>
                                 <td> {{ s.Created_At }} </td>
+                                <td> <a href="{% url 'view_bottles' %}" class="btn btn-primary btn-sm">View Bottles</a> </td>
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
 
+                    <div class="mt-4 d-flex gap-2">
+                        <a href="{% url 'add_bottle' %}" class="btn btn-success">Add Water Bottles</a>
+                        <a href="{% url 'manage_account' account_id %}" class="btn btn-warning">Manage Account</a>
+                        <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+                    </div>
                 </div>
-                {% endblock %}
+            </div>
+            {% endblock %}

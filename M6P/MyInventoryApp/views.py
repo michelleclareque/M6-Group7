@@ -18,16 +18,14 @@ comments of my program.
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Supplier, WaterBottle, Account
 
-# Create your views here.
-
 def view_supplier(request):
     suppliers = Supplier.objects.all()
-    return render(request, 'MyInventoryApp/view_supplier.html', {'suppliers':suppliers})
+    account_id = request.session.get('account_id')
+    return render(request, 'MyInventoryApp/view_supplier.html', {'suppliers': suppliers, 'account_id': account_id})
 
-def view_bottles(request, pk):
-    supplier_objects = get_object_or_404(Supplier, pk=pk)
-    waterbottles = WaterBottle.objects.filter(Supplied_by=supplier)
-    return render(request, 'MyInventoryApp/view_bottles.html', {'waterbottles':waterbottles, 'supplier':supplier})
+def view_bottles(request):
+    waterbottles = WaterBottle.objects.all()
+    return render(request, 'MyInventoryApp/view_bottles.html', {'waterbottles': waterbottles})
 
 def add_bottle(request):
     suppliers = Supplier.objects.all()
@@ -50,9 +48,9 @@ def add_bottle(request):
         return redirect("view_supplier")
     return render(request, 'MyInventoryApp/add_bottle.html', {'suppliers': suppliers})
 
-def view_detail(request, pk):
+def view_bottle_details(request, pk):
     bottle = get_object_or_404(WaterBottle, pk=pk)
-    return render(request, 'MyInventoryApp/view_detail.html', {'bottle': bottle})
+    return render(request, 'MyInventoryApp/view_bottle_details.html', {'bottle': bottle})
 
 def login_view(request):
     if request.method == "POST":
@@ -60,7 +58,8 @@ def login_view(request):
         pword = request.POST.get("password")
         try:
             acc = Account.objects.get(username=uname, password=pword)
-            return redirect("view_supplier", pk=acc.pk)
+            request.session['account_id'] = acc.pk
+            return redirect("view_supplier")
         except Account.DoesNotExist:
             return render(request, "MyInventoryApp/login.html", {"error": "Invalid login"})
     return render(request, "MyInventoryApp/login.html")
@@ -100,8 +99,9 @@ def delete_account(request, pk):
     return redirect("login")
 
 def logout_view(request):
+    request.session.flush()
     return redirect("login")
 
 def delete_bottle(request, pk):
     WaterBottle.objects.filter(pk=pk).delete()
-    return redirect('view_supplier')
+    return redirect('view_bottles')
