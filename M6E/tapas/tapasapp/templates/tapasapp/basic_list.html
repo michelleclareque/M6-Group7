@@ -21,7 +21,7 @@ comments of my program.
   <h2 class="mb-4">Welcome, {{ account.username }}</h2>
 
     <div class="mb-3">
-        <a href="/manage_account/{{ account.id }}/" class="btn btn-primary">
+        <a href="{% url 'manage_account' account.pk %}" class="btn btn-primary">
             Manage Account
         </a>
 

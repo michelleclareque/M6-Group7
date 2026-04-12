@@ -16,7 +16,8 @@ comments of my program.
 '''
 
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Dish, Account 
+from .models import Dish, Account
+from django.contrib import messages
 
 # Create your views here.
 
@@ -93,6 +94,7 @@ def signup_view(request):
         if Account.objects.filter(username=uname).exists():
             return render(request, "tapasapp/signup.html", {"error": "Account already exists"})
         Account.objects.create(username=uname, password=pword)
+        messages.success(request, "Account created successfully")
         return redirect("login")
     return render(request, "tapasapp/signup.html")
 

@@ -37,7 +37,7 @@ comments of my program.
                 <div class="row">
                     <div class="mt-4 col-4">
                         <div class="form-group">
-                            <a href="/change_password/{{ account.id }}/" class="btn btn-primary">
+                            <a href="{% url 'change_password' account.pk %}" class="btn btn-primary">
                                 Change Password
                             </a>
                         </div>
@@ -45,14 +45,14 @@ comments of my program.
                     </div>
                     <div class="mt-4 col-4">
                         <div class="form-group">
-                            <a href="/delete_account/{{ account.id }}/" class="btn btn-danger">
+                            <a href="{% url 'delete_account' account.pk %}" class="btn btn-danger">
                                 Delete Account
                             </a>
                         </div>
                     </div>
                     <div class="mt-4 col-4">
                         <div class="form-group">
-                            <a href="/basic_list/{{ account.id }}/" class="btn btn-secondary">
+                            <a href="{% url 'basic_list' account.pk %}" class="btn btn-secondary">
                                 Back
                             </a>
                         </div>
