@@ -19,6 +19,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Supplier, WaterBottle, Account
 
 def view_supplier(request):
+    if not request.session.get('account_id'):
+        return redirect('login')
     suppliers = Supplier.objects.all()
     account_id = request.session.get('account_id')
     return render(request, 'MyInventoryApp/view_supplier.html', {'suppliers': suppliers, 'account_id': account_id})
@@ -46,6 +48,8 @@ def add_bottle(request):
             Supplied_by=supplier, Current_Quantity=quantity
         )
         return redirect("view_supplier")
+    if not request.session.get('account_id'):
+        return redirect('login')
     return render(request, 'MyInventoryApp/add_bottle.html', {'suppliers': suppliers})
 
 def view_bottle_details(request, pk):
