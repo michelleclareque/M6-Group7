@@ -18,6 +18,13 @@ comments of my program.
 {% extends "MyInventoryApp/base.html" %}
 
 {% block content %}
+
+{% if supplier %}
+    <h2 class="mb-4 text-center">Bottles from {{ supplier.Name }}</h2>
+{% else %}
+    <h2 class="mb-4 text-center">All Water Bottles</h2>
+{% endif %}
+
 <div class="row justify-content-center">
   <div class="col-md-8">
     <h2 class="mb-4 text-center">Water Bottle Details</h2>

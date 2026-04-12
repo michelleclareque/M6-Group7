@@ -105,3 +105,9 @@ def logout_view(request):
 def delete_bottle(request, pk):
     WaterBottle.objects.filter(pk=pk).delete()
     return redirect('view_bottles')
+
+def view_bottles_by_supplier(request, pk):
+    supplier = get_object_or_404(Supplier, pk=pk)
+    waterbottles = WaterBottle.objects.filter(Supplied_by_id=pk)
+    return render(request, "MyInventoryApp/view_bottles.html", {"supplier": supplier,"waterbottles": waterbottles})
+

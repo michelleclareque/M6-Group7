@@ -37,7 +37,7 @@ comments of my program.
                                 <td> {{ s.City }} </td>
                                 <td> {{ s.Country }} </td>
                                 <td> {{ s.Created_At }} </td>
-                                <td> <a href="{% url 'view_bottles' %}" class="btn btn-primary btn-sm">View Bottles</a> </td>
+                                <td> <a href="{% url 'view_bottles_by_supplier' s.pk %}" class="btn btn-primary btn-sm">View Bottles</a> </td>
                             </tr>
                             {% endfor %}
                         </tbody>
