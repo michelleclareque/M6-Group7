@@ -37,8 +37,12 @@ comments of my program.
     {% if error %}
       <div class="alert alert-danger mt-3">{{ error }}</div>
     {% endif %}
-    {% if success %}
-      <div class="alert alert-success mt-3">{{ success }}</div>
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} mt-3">
+            {{ message }}
+        </div>
+      {% endfor %}
     {% endif %}
 
     <div class="text-center mt-3">

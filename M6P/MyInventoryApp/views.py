@@ -1,5 +1,5 @@
-# , ; Nathan Riley Sy, 244311; ,
-# April , 2026 
+# Michelle Clare Que, 243687; Nathan Riley Sy, 244311; ,
+# April 13, 2026 
 
 '''
 I hereby attest to the truth of the following facts:
@@ -17,17 +17,14 @@ comments of my program.
 
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Supplier, WaterBottle, Account
+from django.contrib import messages
 
 def view_supplier(request):
-    if not request.session.get('account_id'):
-        return redirect('login')
     suppliers = Supplier.objects.all()
-    account_id = request.session.get('account_id')
-    return render(request, 'MyInventoryApp/view_supplier.html', {'suppliers': suppliers, 'account_id': account_id})
+    acc = request.session.get('acc')
+    return render(request, 'MyInventoryApp/view_supplier.html', {'suppliers': suppliers, 'acc': acc})
 
 def view_bottles(request):
-    if not request.session.get('account_id'):
-        return redirect('login')
     waterbottles = WaterBottle.objects.all()
     return render(request, 'MyInventoryApp/view_bottles.html', {'waterbottles': waterbottles})
 
@@ -50,8 +47,6 @@ def add_bottle(request):
             Supplied_by=supplier, Current_Quantity=quantity
         )
         return redirect("view_supplier")
-    if not request.session.get('account_id'):
-        return redirect('login')
     return render(request, 'MyInventoryApp/add_bottle.html', {'suppliers': suppliers})
 
 def view_bottle_details(request, pk):
@@ -64,8 +59,8 @@ def login_view(request):
         pword = request.POST.get("password")
         try:
             acc = Account.objects.get(username=uname, password=pword)
-            request.session['account_id'] = acc.pk
-            return redirect("view_supplier")
+            request.session['acc'] = acc.pk
+            return redirect('view_supplier')
         except Account.DoesNotExist:
             return render(request, "MyInventoryApp/login.html", {"error": "Invalid login"})
     return render(request, "MyInventoryApp/login.html")
@@ -77,7 +72,8 @@ def signup_view(request):
         if Account.objects.filter(username=uname).exists():
             return render(request, "MyInventoryApp/signup.html", {"error": "Account already exists"})
         Account.objects.create(username=uname, password=pword)
-        return redirect('login')
+        messages.success(request, "Account created successfully")
+        return redirect("login")
     return render(request, "MyInventoryApp/signup.html")
 
 def manage_account(request, pk):
@@ -113,11 +109,11 @@ def delete_bottle(request, pk):
     WaterBottle.objects.filter(pk=pk).delete()
     return redirect('view_bottles')
 
-def view_bottles_by_supplier(request, pk):
-    supplier = get_object_or_404(Supplier, pk=pk)
-    waterbottles = WaterBottle.objects.filter(Supplied_by_id=pk)
-    return render(request, "MyInventoryApp/view_bottles.html", {"supplier": supplier,"waterbottles": waterbottles})
+#def view_bottles_by_supplier(request, pk):
+#    supplier = get_object_or_404(Supplier, pk=pk)
+#    waterbottles = WaterBottle.objects.filter(Supplied_by_id=pk)
+#    return render(request, "MyInventoryApp/view_bottles.html", {"supplier": supplier,"waterbottles": waterbottles})
 
 def dropdown(request):
     suppliers = Supplier.objects.all()
-    return render(request, "add_bottle.html", {"suppliers": suppliers})
+    return render(request, "MyInventoryApp/add_bottle.html", {"suppliers": suppliers})

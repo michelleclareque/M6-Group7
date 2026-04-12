@@ -75,7 +75,7 @@ comments of my program.
                                                 <select name="supplier" class="form-control" id="supplier">
                                                     <option value="">Select a supplier</option>
                                                     {% for s in suppliers %}
-                                                        <option value="{{ s.id }}">{{ s.Name }}</option>
+                                                        <option value="{{ s.pk }}">{{ s.Name }}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div>

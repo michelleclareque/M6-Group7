@@ -31,8 +31,6 @@ urlpatterns = [
 
     path('view_bottle_details/<int:pk>/', views.view_bottle_details, name='view_bottle_details'),
 
-    path('view_bottles/<int:pk>/', views.view_bottles_by_supplier, name='view_bottles_by_supplier'),
-
     path('add_bottle/', views.add_bottle, name='add_bottle'),  
 
     path('delete_bottle/<int:pk>/', views.delete_bottle, name='delete_bottle'),
