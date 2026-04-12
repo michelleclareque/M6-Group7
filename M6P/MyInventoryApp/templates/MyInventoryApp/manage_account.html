@@ -15,12 +15,52 @@ obtained from another source, such as a textbook or course notes, that has been 
 comments of my program.
 -->
 
-{% extends "MyInventoryApp/base.html" %}
-{% block content %}
-<h2>Manage Account</h2>
-<p>Username: {{ account.username }}</p>
+{% extends 'MyInventoryApp/base.html' %}
+{% load static %}
 
-<a href="{% url 'change_password' account.pk %}">Change Password</a>
-<a href="{% url 'delete_account' account.pk %}">Delete Account</a>
-<a href="{% url 'view_supplier' %}">Back</a>
+
+
+{% block content %}
+<div class="col-md-8">
+
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">Manage Account</h5>
+        </div>
+        <div class="card-body">
+            
+                <div class="form-group">
+                    <label for="usermame">Username:</label>
+                    <input type="text" class="form-control" id="dusername" name="dusername" value="{{ account.username }}" disabled>
+                </div>
+
+                <div class="row">
+                    <div class="mt-4 col-4">
+                        <div class="form-group">
+                            <a href="/change_password/{{ account.id }}/" class="btn btn-primary">
+                                Change Password
+                            </a>
+                        </div>
+        
+                    </div>
+                    <div class="mt-4 col-4">
+                        <div class="form-group">
+                            <a href="/delete_account/{{ account.id }}/" class="btn btn-danger">
+                                Delete Account
+                            </a>
+                        </div>
+                    </div>
+                    <div class="mt-4 col-4">
+                        <div class="form-group">
+                            <a href="/manage_account/{{ account.id }}/" class="btn btn-secondary">
+                                Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+    </div>
+
+</div>
 {% endblock %}
