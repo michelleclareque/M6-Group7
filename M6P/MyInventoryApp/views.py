@@ -58,7 +58,7 @@ def view_bottle_details(request, pk):
     bottle = get_object_or_404(WaterBottle, pk=pk)
     return render(request, 'MyInventoryApp/view_bottle_details.html', {'bottle': bottle})
 
-def login_view(request):
+def login_view(request):    
     if request.method == "POST":
         uname = request.POST.get("username")
         pword = request.POST.get("password")
@@ -77,7 +77,7 @@ def signup_view(request):
         if Account.objects.filter(username=uname).exists():
             return render(request, "MyInventoryApp/signup.html", {"error": "Account already exists"})
         Account.objects.create(username=uname, password=pword)
-        return render(request, "MyInventoryApp/login.html", {"success": "Account created successfully"})
+        return redirect('login')
     return render(request, "MyInventoryApp/signup.html")
 
 def manage_account(request, pk):
