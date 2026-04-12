@@ -43,5 +43,7 @@ urlpatterns = [
     
     path('delete_account/<int:pk>/', views.delete_account, name='delete_account'),
     
-    path('logout/', views.logout_view, name='logout'),    
+    path('logout/', views.logout_view, name='logout'),
+
+    path('add_bottle/', views.dropdown, name='add_bottle'),
 ]

@@ -30,14 +30,14 @@ def view_bottles(request):
 def add_bottle(request):
     suppliers = Supplier.objects.all()
     if request.method == "POST":
-        sku = request.POST.get("sku")
-        brand = request.POST.get("brand")
-        cost = request.POST.get("cost")
-        size = request.POST.get("size")
-        mouth_size = request.POST.get("mouth_size")
-        color = request.POST.get("color")
+        sku = request.POST.get("add_sku")
+        brand = request.POST.get("add_brand")
+        cost = request.POST.get("add_cost")
+        size = request.POST.get("add_size")
+        mouth_size = request.POST.get("add_mouth_size")
+        color = request.POST.get("add_color")
         supplier_id = request.POST.get("supplier")
-        quantity = request.POST.get("quantity")
+        quantity = request.POST.get("add_current_quantity")
 
         supplier = Supplier.objects.get(pk=supplier_id)
         WaterBottle.objects.create(
@@ -111,3 +111,6 @@ def view_bottles_by_supplier(request, pk):
     waterbottles = WaterBottle.objects.filter(Supplied_by_id=pk)
     return render(request, "MyInventoryApp/view_bottles.html", {"supplier": supplier,"waterbottles": waterbottles})
 
+def dropdown(request):
+    suppliers = Supplier.objects.all()
+    return render(request, "add_bottle.html", {"suppliers": suppliers})

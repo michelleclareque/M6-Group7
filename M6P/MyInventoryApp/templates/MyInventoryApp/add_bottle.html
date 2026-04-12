@@ -31,12 +31,12 @@ comments of my program.
                                     <h6><strong>Type in Waterbottle Details:</strong></h6>
                                 </div>
                                 <div class="card-body">
-                                    <form id="add_menu_form" method="GET">
-
+                                    <form id="add_menu_form" method="POST">
+                                        {% csrf_token %}
                                         <div class="row mb-4">
                                             <div class="col-md-2">
                                                 <label for="add_sku" class="form-label">SKU:</label>
-                                                <input type="text" class="form-control" id="add_sku">
+                                                <input type="text" class="form-control" id="add_sku" name="add_sku">
                                             </div>
 
                                             <div class="col-md-3 offset-md-4">
@@ -72,16 +72,24 @@ comments of my program.
                                         <div class="row mb-4">
                                             <div class="col-md-4">
                                                 <label for="add_suppliedby" class="form-label">Supplied by:</label>
-                                                <input type="text" class="form-control" id="add_suppliedby" name="add_suppliedby">
+                                                <select name="supplier" class="form-control" id="supplier">
+                                                    <option value="">Select a supplier</option>
+                                                    {% for s in suppliers %}
+                                                        <option value="{{ s.id }}">{{ s.Name }}</option>
+                                                    {% endfor %}
+                                                </select>
                                             </div>
-
                                             <div class="col-md-3 offset-md-2">
                                                 <label for="add_current_quantity" class="form-label">Current Quantity:</label>
                                             <input type="number" class="form-control" id="add_current_quantity" name="add_current_quantity" min="0">
                                             </div>
                                         </div>
                         
-                                        <button type="submit" class="btn btn-secondary">Add bottle</button>
+                                        <button type="submit" class="btn btn-success">Add bottle</button>
+
+                                        <a href="/view_supplier/" class="mx-1 btn btn-secondary">
+                                            Back
+                                        </a>
                                     </form>                
                                 </div>
                             </div>
