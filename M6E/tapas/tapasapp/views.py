@@ -44,7 +44,7 @@ def change_password(request, pk):
             acc.save()
             return redirect("manage_account", pk=pk)
         else:
-            return render(request, "tapasapp/change_password.html", {"account": acc, "error": " Wrong Current Password or Confirm Passowed doesn't match"})
+            return render(request, "tapasapp/change_password.html", {"account": acc, "error": "Wrong current password or confirmation mismatch"})
     return render(request, "tapasapp/change_password.html", {"account": acc})
 
 def add_menu(request):

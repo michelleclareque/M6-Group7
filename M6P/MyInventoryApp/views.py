@@ -26,6 +26,8 @@ def view_supplier(request):
     return render(request, 'MyInventoryApp/view_supplier.html', {'suppliers': suppliers, 'account_id': account_id})
 
 def view_bottles(request):
+    if not request.session.get('account_id'):
+        return redirect('login')
     waterbottles = WaterBottle.objects.all()
     return render(request, 'MyInventoryApp/view_bottles.html', {'waterbottles': waterbottles})
 
