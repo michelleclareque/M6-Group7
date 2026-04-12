@@ -102,6 +102,7 @@ def change_password(request, pk):
 def delete_account(request, pk):
     acc = get_object_or_404(Account, pk=pk)
     acc.delete()
+    request.session.flush()
     return redirect("login")
 
 def logout_view(request):
