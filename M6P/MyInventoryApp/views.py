@@ -1,5 +1,5 @@
-# Michelle Clare Que, 243687; Nathan Riley Sy, 244311; Andrew Gabriel Zapico, 246798
-# April 13, 2026
+# Michelle Clare Que, 243687; Nathan Riley Sy, 244311; ,
+# April 13, 2026 
 
 '''
 I hereby attest to the truth of the following facts:
@@ -19,16 +19,26 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Supplier, WaterBottle, Account
 from django.contrib import messages
 
+account_id = 0
+
 def view_supplier(request):
+    global account_id
+    if account_id == 0:
+        return redirect('login')
     suppliers = Supplier.objects.all()
-    acc = request.session.get('acc')
-    return render(request, 'MyInventoryApp/view_supplier.html', {'suppliers': suppliers, 'acc': acc})
+    return render(request, 'MyInventoryApp/view_supplier.html', {'suppliers': suppliers, 'account_id': account_id})
 
 def view_bottles(request):
+    global account_id
+    if account_id == 0:
+        return redirect('login')
     waterbottles = WaterBottle.objects.all()
     return render(request, 'MyInventoryApp/view_bottles.html', {'waterbottles': waterbottles})
 
 def add_bottle(request):
+    global account_id
+    if account_id == 0:
+        return redirect('login')
     suppliers = Supplier.objects.all()
     if request.method == "POST":
         sku = request.POST.get("add_sku")
@@ -50,16 +60,20 @@ def add_bottle(request):
     return render(request, 'MyInventoryApp/add_bottle.html', {'suppliers': suppliers})
 
 def view_bottle_details(request, pk):
+    global account_id
+    if account_id == 0:
+        return redirect('login')
     bottle = get_object_or_404(WaterBottle, pk=pk)
     return render(request, 'MyInventoryApp/view_bottle_details.html', {'bottle': bottle})
 
-def login_view(request):    
+def login_view(request):
+    global account_id
     if request.method == "POST":
         uname = request.POST.get("username")
         pword = request.POST.get("password")
         try:
             acc = Account.objects.get(username=uname, password=pword)
-            request.session['acc'] = acc.pk
+            account_id = acc.pk
             return redirect('view_supplier')
         except Account.DoesNotExist:
             return render(request, "MyInventoryApp/login.html", {"error": "Invalid login"})
@@ -77,6 +91,9 @@ def signup_view(request):
     return render(request, "MyInventoryApp/signup.html")
 
 def manage_account(request, pk):
+    global account_id
+    if account_id == 0:
+        return redirect('login')
     acc = get_object_or_404(Account, pk=pk)
     return render(request, "MyInventoryApp/manage_account.html", {"account": acc})
 
@@ -96,13 +113,16 @@ def change_password(request, pk):
     return render(request, "MyInventoryApp/change_password.html", {"account": acc})
 
 def delete_account(request, pk):
+    global account_id
+    account_id == 0
     acc = get_object_or_404(Account, pk=pk)
     acc.delete()
-    request.session.flush()
     return redirect("login")
 
 def logout_view(request):
-    request.session.flush()
+    global account_id
+    if account_id == 0:
+        return redirect('login')
     return redirect("login")
 
 def delete_bottle(request, pk):
