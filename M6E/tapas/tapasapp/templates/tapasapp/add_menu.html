@@ -38,14 +38,14 @@ comments of my program.
                     <div class="col-6">
                         <div class="form-group">
                             <label for="vintage"> Cook Time: </label>
-                            <input type="number" class="form-control w-50" id="ctime" name="ctime">
+                            <input type="number" class="form-control w-50" id="ctime" name="ctime" min="0">
                         </div>
         
                     </div>
                     <div class="col-6">
                         <div class="form-group">
                             <label for="price"> Prep Time: </label>
-                            <input type="number" class="form-control w-50" id="ptime" name="ptime">
+                            <input type="number" class="form-control w-50" id="ptime" name="ptime" min="0">
                         </div>
         
                     </div>
@@ -54,6 +54,7 @@ comments of my program.
 
 
                 <button type="submit" class="mt-3 btn btn-secondary">Add to dishes</button>
+                <a href="{% url 'basic_list' account.pk %}" class="mt-3 btn btn-primary">Cancel</a>
             </form>                
 
 

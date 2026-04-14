@@ -19,10 +19,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Dish, Account
 from django.contrib import messages
 
-# Create your views here.
+account_id = 0
 
 def basic_list(request, pk):
-    acc = get_object_or_404(Account, pk=pk)
+    global account_id
+    if account_id == 0:
+        return redirect('login')
+    acc = get_object_or_404(Account, pk=account_id)
     dishes = Dish.objects.all()
     return render(request, "tapasapp/basic_list.html", {
         "account": acc,
@@ -30,8 +33,12 @@ def basic_list(request, pk):
     })
 
 def better_menu(request):
+    global account_id
+    if account_id == 0:
+        return redirect('login')
     dish_objects = Dish.objects.all()
-    return render(request, 'tapasapp/better_list.html', {'dishes':dish_objects})
+    acc = Account.objects.get(pk=account_id)
+    return render(request, 'tapasapp/better_list.html', {'dishes':dish_objects, 'account':acc})
 
 def change_password(request, pk):
     acc = get_object_or_404(Account, pk=pk)
@@ -49,24 +56,35 @@ def change_password(request, pk):
     return render(request, "tapasapp/change_password.html", {"account": acc})
 
 def add_menu(request):
+    global account_id
+    if account_id == 0:
+        return redirect('login')
+    acc = get_object_or_404(Account, pk=account_id)
     if request.method=="POST":
         dishname = request.POST.get('dname')
         cooktime = request.POST.get('ctime')
         preptime = request.POST.get('ptime')
         Dish.objects.create(name=dishname, cook_time=cooktime, prep_time=preptime)
         return redirect('better_menu')
-    else:
-        return render(request, 'tapasapp/add_menu.html')
+    return render(request, 'tapasapp/add_menu.html', {'account': acc})
 
 def view_detail(request, pk):
+    global account_id
+    if account_id == 0:
+        return redirect('login')
     d = get_object_or_404(Dish, pk=pk)
-    return render(request, 'tapasapp/view_detail.html', {'d': d})
+    acc = get_object_or_404(Account, pk=account_id)
+    return render(request, 'tapasapp/view_detail.html', {'d': d, 'account': acc})
 
 def delete_dish(request, pk):
     Dish.objects.filter(pk=pk).delete()
     return redirect('better_menu')
 
 def update_dish(request, pk):
+    global account_id
+    if account_id == 0:
+        return redirect('login')
+    acc = Account.objects.get(pk=account_id)
     if(request.method=="POST"):
         cooktime = request.POST.get('ctime')
         preptime = request.POST.get('ptime')
@@ -74,15 +92,17 @@ def update_dish(request, pk):
         return redirect('view_detail', pk=pk)
     else:
         d = get_object_or_404(Dish, pk=pk)
-        return render(request, 'tapasapp/update_menu.html', {'d':d})
+        return render(request, 'tapasapp/update_menu.html', {'d':d, 'account':acc})
 
 def login_view(request):
+    global account_id
     if request.method == "POST":
         uname = request.POST.get("username")
         pword = request.POST.get("password")
         try:
-            acc = Account.objects.get(username=uname, password=pword)
-            return redirect("basic_list", pk=acc.pk)
+            account = Account.objects.get(username=uname, password=pword)
+            account_id = account.pk
+            return redirect("basic_list", pk=account_id)
         except Account.DoesNotExist:
             return render(request, "tapasapp/login.html", {"error": "Invalid login"})
     return render(request, "tapasapp/login.html")
@@ -99,13 +119,20 @@ def signup_view(request):
     return render(request, "tapasapp/signup.html")
 
 def logout_view(request):
+    global account_id
+    account_id = 0
     return redirect("login")
 
 def delete_account(request, pk):
+    global account_id
     acc = get_object_or_404(Account, pk=pk)
     acc.delete()
+    account_id = 0
     return redirect("login")
 
 def manage_account(request, pk):
+    global account_id
+    if account_id == 0:
+        return redirect('login')
     acc = get_object_or_404(Account, pk=pk)
     return render(request, "tapasapp/manage_account.html", {"account": acc})

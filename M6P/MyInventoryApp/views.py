@@ -73,8 +73,8 @@ def login_view(request):
         uname = request.POST.get("username")
         pword = request.POST.get("password")
         try:
-            account_id = Account.objects.get(username=uname, password=pword)
-            account_id = account_id.pk
+            account = Account.objects.get(username=uname, password=pword)
+            account_id = account.pk
             return redirect('view_supplier')
         except Account.DoesNotExist:
             return render(request, "MyInventoryApp/login.html", {"error": "Invalid login"})

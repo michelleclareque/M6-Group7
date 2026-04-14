@@ -40,6 +40,8 @@ comments of my program.
                             {% endfor %}
                         </tbody>
                     </table>
+                    <a href="{% url 'basic_list' account.pk %}" class="btn btn-primary">Back</a>
+                    <div style="height: 80px;"></div>
                 </div>
                 {% endblock %}
 
