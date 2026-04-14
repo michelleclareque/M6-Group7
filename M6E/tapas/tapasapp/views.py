@@ -96,7 +96,6 @@ def update_dish(request, pk):
 
 def login_view(request):
     global account_id
-    account_id = 0
     if request.method == "POST":
         uname = request.POST.get("username")
         pword = request.POST.get("password")
