@@ -26,7 +26,8 @@ def view_supplier(request):
     if account_id == 0:
         return redirect('login')
     suppliers = Supplier.objects.all()
-    return render(request, 'MyInventoryApp/view_supplier.html', {'suppliers': suppliers, 'account_id': account_id})
+    account = Account.objects.get(pk=account_id)
+    return render(request, 'MyInventoryApp/view_supplier.html', {'suppliers': suppliers, 'account': account})
 
 def view_bottles(request):
     global account_id
@@ -72,8 +73,8 @@ def login_view(request):
         uname = request.POST.get("username")
         pword = request.POST.get("password")
         try:
-            acc = Account.objects.get(username=uname, password=pword)
-            account_id = acc.pk
+            account_id = Account.objects.get(username=uname, password=pword)
+            account_id = account_id.pk
             return redirect('view_supplier')
         except Account.DoesNotExist:
             return render(request, "MyInventoryApp/login.html", {"error": "Invalid login"})
@@ -94,35 +95,34 @@ def manage_account(request, pk):
     global account_id
     if account_id == 0:
         return redirect('login')
-    acc = get_object_or_404(Account, pk=pk)
-    return render(request, "MyInventoryApp/manage_account.html", {"account": acc})
+    account = get_object_or_404(Account, pk=pk)
+    return render(request, "MyInventoryApp/manage_account.html", {"account": account})
 
 def change_password(request, pk):
-    acc = get_object_or_404(Account, pk=pk)
+    account = get_object_or_404(Account, pk=pk)
     if request.method == "POST":
         current_password = request.POST.get("current_password")
         new_password = request.POST.get("new_password")
         confirm_password = request.POST.get("confirm_password")
 
-        if acc.password == current_password and new_password == confirm_password:
-            acc.password = new_password
-            acc.save()
+        if account.password == current_password and new_password == confirm_password:
+            account.password = new_password
+            account.save()
             return redirect("manage_account", pk=pk)
         else:
-            return render(request, "MyInventoryApp/change_password.html", {"account": acc, "error": "Wrong current password or confirmation mismatch"})
-    return render(request, "MyInventoryApp/change_password.html", {"account": acc})
+            return render(request, "MyInventoryApp/change_password.html", {"account": account, "error": "Wrong current password or confirmation mismatch"})
+    return render(request, "MyInventoryApp/change_password.html", {"account": account})
 
 def delete_account(request, pk):
     global account_id
-    account_id == 0
-    acc = get_object_or_404(Account, pk=pk)
-    acc.delete()
+    account = get_object_or_404(Account, pk=pk)
+    account.delete()
+    account_id = 0
     return redirect("login")
 
 def logout_view(request):
     global account_id
-    if account_id == 0:
-        return redirect('login')
+    account_id = 0
     return redirect("login")
 
 def delete_bottle(request, pk):
