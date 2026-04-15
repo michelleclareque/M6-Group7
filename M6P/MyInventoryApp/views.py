@@ -131,7 +131,7 @@ def delete_bottle(request, pk):
 
 #def view_bottles_by_supplier(request, pk):
 #    supplier = get_object_or_404(Supplier, pk=pk)
-#    waterbottles = WaterBottle.objects.filter(Supplied_by_id=pk)
+#    waterbottles = WaterBottle.objects.filter(Supplied_by_pk=pk)
 #    return render(request, "MyInventoryApp/view_bottles.html", {"supplier": supplier,"waterbottles": waterbottles})
 
 def dropdown(request):
