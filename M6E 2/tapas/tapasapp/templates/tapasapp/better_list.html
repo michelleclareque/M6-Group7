@@ -1,0 +1,48 @@
+<!--
+Michelle Clare Que, 243687; Nathan Riley Sy, 244311; Andrew Gabriel Zapico, 246798
+April 15, 2026
+
+I hereby attest to the truth of the following facts:
+
+I have not discussed the HTML language code in my program with anyone
+other than my instructor or the teaching assistants assigned to this course.
+
+I have not used HTML language code obtained from another student, or
+any other unauthorized source, either modified or unmodified.
+
+If any HTML language code or documentation used in my program was
+obtained from another source, such as a textbook or course notes, that has been clearly noted with proper citation in the
+comments of my program.
+-->
+
+{% extends 'tapasapp/base.html' %}
+{% load static %}
+
+
+
+                {% block content %}
+                <div class="col-12">
+                    <table class="table table-striped mb-5">
+                        <thead>
+                            <th scope="col"> Name </th>
+                            <th scope="col"> Cooking Time </th>
+                            <th scope="col"> Prep Time </th>
+                            <th scope="col">  </th>
+                        </thead>
+                        <tbody>
+                            {% for d in dishes %}
+                            <tr>
+                                <td> {{ d.name }} </td>
+                                <td> {{ d.prep_time }} </td>
+                                <td> {{ d.cook_time }} </td>
+                                <td><a href="{% url 'view_detail' pk=d.pk %}"  class="btn btn-dark">Details</button></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <a href="{% url 'basic_list' account.pk %}" class="btn btn-primary">Back</a>
+                    <div style="height: 80px;"></div>
+                </div>
+                {% endblock %}
+
+            

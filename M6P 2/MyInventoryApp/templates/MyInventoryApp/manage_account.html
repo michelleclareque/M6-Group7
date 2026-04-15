@@ -1,0 +1,66 @@
+<!--
+Michelle Clare Que, 243687; Nathan Riley Sy, 244311; Andrew Gabriel Zapico, 246798
+April 15, 2026
+
+I hereby attest to the truth of the following facts:
+
+I have not discussed the HTML language code in my program with anyone
+other than my instructor or the teaching assistants assigned to this course.
+
+I have not used HTML language code obtained from another student, or
+any other unauthorized source, either modified or unmodified.
+
+If any HTML language code or documentation used in my program was
+obtained from another source, such as a textbook or course notes, that has been clearly noted with proper citation in the
+comments of my program.
+-->
+
+{% extends 'MyInventoryApp/base.html' %}
+{% load static %}
+
+
+
+{% block content %}
+<div class="col-md-8">
+
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">Manage Account</h5>
+        </div>
+        <div class="card-body">
+            
+                <div class="form-group">
+                    <label for="usermame">Username:</label>
+                    <input type="text" class="form-control" id="dusername" name="dusername" value="{{ account.username }}" disabled>
+                </div>
+
+                <div class="row">
+                    <div class="mt-4 col-4">
+                        <div class="form-group">
+                            <a href="{% url 'change_password' account.pk %}" class="btn btn-primary">
+                                Change Password
+                            </a>
+                        </div>
+        
+                    </div>
+                    <div class="mt-4 col-4">
+                        <div class="form-group">
+                            <a href="{% url 'delete_account' account.pk %}" class="btn btn-danger">
+                                Delete Account
+                            </a>
+                        </div>
+                    </div>
+                    <div class="mt-4 col-4">
+                        <div class="form-group">
+                            <a href="{% url 'view_supplier' %}" class="btn btn-secondary">
+                                Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+<!--
+Michelle Clare Que, 243687; Nathan Riley Sy, 244311; Andrew Gabriel Zapico, 246798
+April 15, 2026
+
+I hereby attest to the truth of the following facts:
+
+I have not discussed the HTML language code in my program with anyone
+other than my instructor or the teaching assistants assigned to this course.
+
+I have not used HTML language code obtained from another student, or
+any other unauthorized source, either modified or unmodified.
+
+If any HTML language code or documentation used in my program was
+obtained from another source, such as a textbook or course notes, that has been clearly noted with proper citation in the
+comments of my program.
+-->
+
+{% extends "MyInventoryApp/base.html" %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <h2 class="mb-4 text-center">Water Bottle Details</h2>
+
+    <div class="card shadow-sm p-4">
+      <p>SKU: {{ bottle.SKU }}</p>
+      <p>Brand: {{ bottle.Brand }}</p>
+      <p>Cost: {{ bottle.Cost }}</p>
+      <p>Size: {{ bottle.Size }}</p>
+      <p>Mouth Size: {{ bottle.Mouth_Size }}</p>
+      <p>Color: {{ bottle.Color }}</p>
+      <p>Supplier: {{ bottle.Supplied_by.Name }}</p>
+      <p>Quantity: {{ bottle.Current_Quantity }}</p>
+    </div>
+
+    <div class="mt-4 d-flex gap-2">
+      <a href="{% url 'delete_bottle' bottle.pk %}" class="btn btn-danger">Delete</a>
+      <a href="{% url 'view_bottles' %}" class="btn btn-secondary">Back</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

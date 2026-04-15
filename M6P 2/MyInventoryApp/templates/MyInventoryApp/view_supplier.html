@@ -1,0 +1,53 @@
+<!--
+Michelle Clare Que, 243687; Nathan Riley Sy, 244311; Andrew Gabriel Zapico, 246798
+April 15, 2026
+
+I hereby attest to the truth of the following facts:
+
+I have not discussed the HTML language code in my program with anyone
+other than my instructor or the teaching assistants assigned to this course.
+
+I have not used HTML language code obtained from another student, or
+any other unauthorized source, either modified or unmodified.
+
+If any HTML language code or documentation used in my program was
+obtained from another source, such as a textbook or course notes, that has been clearly noted with proper citation in the
+comments of my program.
+-->
+
+{% extends 'MyInventoryApp/base.html' %}
+{% load static %}
+                
+                {% block content %}
+                <h2>Suppliers</h2>
+                <div class="col-12">
+
+                    <table class="table table-striped">
+                        <thead>
+                            <th class="border-top border-bottom" scope="col"> Name </th>
+                            <th class="border-top border-bottom" scope="col"> City </th>
+                            <th class="border-top border-bottom" scope="col"> Country </th>
+                            <th class="border-top border-bottom" scope="col"> Created at </th>
+                            <th class="border-top border-bottom" scope="col"> More </th>
+                        </thead>
+                        <tbody>
+                            {% for s in suppliers %}
+                            <tr>
+                                <td> {{ s.Name }} </td>
+                                <td> {{ s.City }} </td>
+                                <td> {{ s.Country }} </td>
+                                <td> {{ s.Created_At }} </td>
+                                <td> <a href="{% url 'view_bottles' %}" class="btn btn-primary btn-sm">View Bottles</a> </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <div class="mt-4 d-flex gap-2">
+                        <a href="{% url 'add_bottle' %}" class="btn btn-success">Add Water Bottles</a>
+                        <a href="{% url 'manage_account' account.pk %}" class="btn btn-warning">Manage Account</a>
+                        <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+                    </div>
+                </div>
+            </div>
+            {% endblock %}
